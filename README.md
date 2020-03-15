@@ -12,7 +12,7 @@ I use SpringSequrity for base confugiration of authentication
 
 I just finish only login page
 
-Also I add feature to change the language 
+Also I add feature to change the language(using LocaleChangeInterceptor)
 
 There are privileges for admin
 Only admin can add items, delete items
