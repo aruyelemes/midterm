@@ -34,7 +34,6 @@ public class WebMVCConfig implements WebMvcConfigurer {
     public LocaleChangeInterceptor changeInterceptor(){
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
         interceptor.setParamName("lang");
-        System.out.println("XEXEXE");
         return interceptor;
     }
 
