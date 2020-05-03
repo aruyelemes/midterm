@@ -21,10 +21,30 @@
                     </tr>
                 </tbody>
             </table>
-            <form th:action = "@{'/delete'}" method="post" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+            <form th:action = "@{'/items/delete'}" method="post" sec:authorize="hasAnyRole('ROLE_ADMIN')">
                 <input type="hidden" th:value = "${item.id}" name="id">
                 <button class="btn btn-danger">DELETE ITEM</button>
             </form>
+
+
+
+            <form th:action="@{'/items/update'}" method="post" class="form" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                <div class="form-group">
+                    <input type="hidden" th:value = "${item.id}" name="id">
+                    <label>
+                        NAME :
+                    </label>
+                    <input type="text" name="name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>
+                        PRICE :
+                    </label>
+                    <input type="number" name="price" class="form-control">
+                </div>
+                <button class="btn btn-success">UPDATE</button>
+            </form>
+
         </div>
     </div>
 </div>

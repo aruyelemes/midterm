@@ -1,5 +1,6 @@
 package kz.iitu.midterm.entities;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

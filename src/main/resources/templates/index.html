@@ -2,10 +2,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layouts/main.html">
+
     <div layout:fragment="myContent" >
         <div class="row">
             <div class="col-sm-8">
-                <form th:action="@{'/add'}" method="post" class="form" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                <form th:action="@{'/items/add'}" method="post" class="form" sec:authorize="hasAnyRole('ROLE_ADMIN')">
                     <div class="form-group">
                         <label>
                             NAME :
@@ -30,12 +31,16 @@
                         <th>
                             ID
                         </th>
-                        <th th:text = "#{label.name}">
+                        <th>
+                            Name
                         </th>
-                        <th th:text = "#{label.price}">
+                        <th>
+                            Price
                         </th>
-                        <th th:text = "#{label.details}">
+                        <th>
+                            Details
                         </th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -44,7 +49,7 @@
                         <td th:text = "${item.name}"></td>
                         <td th:text = "${item.price}"></td>
                         <td>
-                            <a th:href = "@{'/details/'+${item.id}}">DETAILS</a>
+                            <a th:href = "@{'/items/details/'+${item.id}}">DETAILS</a>
                         </td>
                     </tr>
                     </tbody>

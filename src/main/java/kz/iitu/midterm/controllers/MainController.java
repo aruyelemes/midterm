@@ -1,87 +1,61 @@
 package kz.iitu.midterm.controllers;
 
-import kz.iitu.midterm.entities.Items;
 import kz.iitu.midterm.entities.Users;
-import kz.iitu.midterm.repositories.ItemsRepository;
 import kz.iitu.midterm.repositories.UserRepository;
+import kz.iitu.midterm.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class MainController {
 
-    @Autowired
-    private ItemsRepository itemsRepository;
+
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(value = "/")
-    public String index(ModelMap model, @RequestParam(name = "page", defaultValue = "1") int page){
+    public String home(){
+        return "home";
+    }
 
-        int pageSize = 10;
+    @GetMapping(path = "/register")
+    public String registerPage(Model model){
 
-        if(page<1){
-            page = 1;
+        return "register";
+
+    }
+
+    @PostMapping("/register")
+    public String postRegister(@Valid @RequestParam String username,
+                               @RequestParam String password,
+                               @RequestParam String repassword) {
+
+        if (userService.register(username, password, repassword) == null) {
+            return "redirect:/register?error=1";
         }
-
-        int totalItems = itemsRepository.countAllByDeletedAtNull();
-        int tabSize = (totalItems+pageSize-1)/pageSize;
-
-        Pageable pageable = PageRequest.of(page-1, pageSize);
-        List<Items> items = itemsRepository.findAllByDeletedAtNull(pageable);
-        model.addAttribute("itemler", items);
-        model.addAttribute("tabSize", tabSize);
-        return "index";
+        return "redirect:/login";
     }
 
-    @PostMapping(value = "/add")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public String add(
-            @RequestParam(name = "name") String name,
-            @RequestParam(name = "price") int price
-    ){
+    @GetMapping("/profile")
+    public String profile(Authentication authentication, Model model) {
+        model.addAttribute("currentUser", userService.findByUsername(authentication.getName()));
 
-        Items item = new Items(name, price);
-        itemsRepository.save(item);
-
-        return "redirect:/";
+        return "profile";
     }
 
-    @GetMapping(path = "/details/{id}")
-    public String details(ModelMap model, @PathVariable(name = "id") Long id){
-
-        Optional<Items> item = itemsRepository.findByIdAndDeletedAtNull(id);
-        model.addAttribute("item", item.orElse(new Items("No Name", 0)));
-
-        return "details";
-    }
-
-    @PostMapping(path = "/delete")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public String delete(@RequestParam(name = "id") Long id){
-        Items item = itemsRepository.findByIdAndDeletedAtNull(id).get();
-        item.setDeletedAt(new Date());
-        itemsRepository.save(item);
-        return "redirect:/";
-    }
 
     @GetMapping(path = "/login")
     public String loginPage(Model model){
@@ -90,36 +64,16 @@ public class MainController {
 
     }
 
-    @GetMapping(path = "/profile")
-    @PreAuthorize("isAuthenticated()")
-    public String profilePage(Model model){
-
-        model.addAttribute("user", getUserData());
-        return "profile";
-
-    }
-
-    @GetMapping(path = "/users")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public String usersPage(Model model){
-
-        model.addAttribute("user", getUserData());
-
-        List<Users> users = userRepository.findAll();
+    @GetMapping(value = "/usersList")
+    public String index(ModelMap model){
+        List<Users> users = userRepository.findAllByActiveIsTrue();
         model.addAttribute("userList", users);
-
         return "users";
-
     }
 
-    public Users getUserData(){
-        Users userData = null;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(!(authentication instanceof AnonymousAuthenticationToken)){
-            User secUser = (User)authentication.getPrincipal();
-            userData = userRepository.findByEmail(secUser.getUsername());
-        }
-        return userData;
-    }
+
 
 }
+
+
+

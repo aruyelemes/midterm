@@ -1,11 +1,13 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layouts/main.html">
+
     <div layout:fragment="myContent" >
         <div class="row">
             <div class="col-sm-8">
                 <h1>
-                    <span th:text = "${user.fullName}"></span>
+
                 </h1>
             </div>
         </div>
@@ -20,22 +22,12 @@
                         <th>
                             EMAIL
                         </th>
-                        <th>
-                            FULL NAME
-                        </th>
-                        <th>
-                            DETAILS
-                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each = "usr : ${userList}">
                         <td th:text = "${usr.id}"></td>
-                        <td th:text = "${usr.email}"></td>
-                        <td th:text = "${usr.fullName}"></td>
-                        <td>
-                            <a th:href = "@{'/userdetails/'+${usr.id}}">DETAILS</a>
-                        </td>
+                        <td th:text = "${usr.username}"></td>
                     </tr>
                     </tbody>
                 </table>

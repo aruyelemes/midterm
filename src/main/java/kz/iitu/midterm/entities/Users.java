@@ -1,33 +1,42 @@
 package kz.iitu.midterm.entities;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-import java.util.Set;
+import javax.validation.constraints.NotEmpty;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
-@Table(name = "t_users")
+@Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "email")
-    private String email;
+    @NotEmpty(message = "username must not be empty")
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    @Column(name = "password")
+    @NotEmpty(message = "password must not be empty")
+    @Column(nullable = false)
     private String password;
 
-    @Column(name = "full_name")
-    private String fullName;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Roles role;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Roles> roles;
+    private boolean active;
 
+    @PrePersist
+    public void prePersist() {
+        if (!this.active) {
+            this.active = true;
+        }
+    }
 }
