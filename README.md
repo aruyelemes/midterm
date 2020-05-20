@@ -1,14 +1,10 @@
-# midterm
-This project about online shop
-There are 3 entities on database:
-1) Users 
-2)Roles (it's for isentify admin and user)
-3)Items of shop
+Spring boot Shop project for final.
 
+1) Entities: Users, Roles, Orders, OrderItems, Items
+2) Each user has order(OneToOne)
+3) In OrderItems we connect Orders and Items(OneToMany)
 
-#endterm
--Spring Data
--Lombok
--Swagger
--Authentication
--Controllers
+Steps:
+1) Log in or Register
+2) Show all items, Create order, Add items to cart
+3) If admin: show all items, add item, delete item, update item
