@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+
+
+<div layout:fragment="myContent" >
+    <div class="row">
+        <form th:action="@{'/orders/createOrder'}" method="post">
+            <label>
+                ID :
+            </label>
+            <input type="number" name="userID" class="form-control">
+            <button class="btn btn-success">Create order</button>
+        </form>
+
+    </div>
+
+    <a class="nav-link" th:href="@{'/orders/allOrders'}">Orders</span></a>
+
+
+</div>
+
+
+
+</html>

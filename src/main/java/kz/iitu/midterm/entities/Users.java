@@ -31,6 +31,10 @@ public class Users {
     @JoinColumn(name = "role_id")
     private Roles role;
 
+//    @ManyToOne
+//    @JoinColumn(name = "order_id")
+//    private Order order;
+
     private boolean active;
 
     @PrePersist

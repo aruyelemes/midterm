@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+
+<div layout:fragment="myContent" >
+    <div class="row">
+        <div class="col-sm-8">
+            <h1>
+
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table cellpadding="20" class="table table-stripped">
+                <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        QUANTITY
+                    </th>
+                    <th>
+                        ID
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each = "ord : ${orderList}">
+                    <td th:text = "${ord.id}"></td>
+                    <td th:text = "${ord.quantity}"></td>
+                    <td th:text = "${ord.items_id}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</html>

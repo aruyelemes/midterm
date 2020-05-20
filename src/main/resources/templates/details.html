@@ -21,10 +21,31 @@
                     </tr>
                 </tbody>
             </table>
+
+
+
+
+                <h1>Add</h1>
+            <form th:action = "@{'/orders/addToOrder'}" method="post">
+
+                    <input type="hidden" th:value = "${item.id}" name="itemID">
+                <label>
+                    Order ID :
+                </label>
+                <input type="number" name="orderID" class="form-control">
+                    <label>
+                        Quantity :
+                    </label>
+                    <input type="number" name="quantity" class="form-control">
+                    <button class="btn btn-danger">Add to order</button>
+            </form>
+
+
             <form th:action = "@{'/items/delete'}" method="post" sec:authorize="hasAnyRole('ROLE_ADMIN')">
                 <input type="hidden" th:value = "${item.id}" name="id">
                 <button class="btn btn-danger">DELETE ITEM</button>
             </form>
+
 
 
 
