@@ -1,10 +1,20 @@
 Spring boot Shop project for final.
 
-1) Entities: Users, Roles, Orders, OrderItems, Items
-2) Each user has order(OneToOne)
-3) In OrderItems we connect Orders and Items(OneToMany)
+Online shop 
 
-Steps:
-1) Log in or Register
-2) Show all items, Create order, Add items to cart
-3) If admin: show all items, add item, delete item, update item
+Entities: Users, Roles, Orders, OrderItems, Items
+
+Roles: Admin, Client
+
+Admin actions:
+Add product
+Show product
+Update product
+Delete product
+Show list of all users
+
+Client actions:
+Register
+Show list of products
+Create order by id
+Add product to card
